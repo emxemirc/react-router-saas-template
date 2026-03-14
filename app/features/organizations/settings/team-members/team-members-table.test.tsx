@@ -308,4 +308,22 @@ describe("TeamMembersTable Component", () => {
     const pendingBadge = screen.getByText(/pending/i);
     expect(pendingBadge).toBeInTheDocument();
   });
+
+  describe("Image Optimization", () => {
+    test("given: member with null avatar, should: render fallback without errors", () => {
+      const member = createMember({ avatar: undefined });
+      const props = createProps({ members: [member] });
+      const { slug } = createPopulatedOrganization();
+      const path = `/organizations/${slug}/settings/team-members`;
+      const RouterStub = createRoutesStub([
+        { Component: () => <TeamMembersTable {...props} />, path },
+      ]);
+
+      render(<RouterStub initialEntries={[path]} />);
+
+      expect(
+        screen.getByText(member.name.slice(0, 2).toUpperCase()),
+      ).toBeInTheDocument();
+    });
+  });
 });

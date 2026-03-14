@@ -89,4 +89,25 @@ describe("OrganizationSwitcher Component", () => {
     // Verify menu is closed.
     expect(screen.queryByText(organizations[0]!.name)).not.toBeInTheDocument();
   });
+
+  describe("Image Optimization", () => {
+    test("given: organization with null logo, should: render fallback gracefully", () => {
+      const currentOrganization = createOrganization({ logo: undefined });
+      const props = createProps({ currentOrganization });
+      const path = "/test";
+      const RouterStub = createRoutesStub([
+        { Component: () => <OrganizationSwitcher {...props} />, path },
+      ]);
+
+      render(
+        <SidebarProvider>
+          <RouterStub initialEntries={[path]} />
+        </SidebarProvider>,
+      );
+
+      expect(
+        screen.getByText(currentOrganization.name.slice(0, 2).toUpperCase()),
+      ).toBeInTheDocument();
+    });
+  });
 });

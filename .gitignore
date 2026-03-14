@@ -22,6 +22,10 @@ node_modules/
 count-lines.sh
 stripe-events.txt
 
+# Image optimization cache
+/data/images/*
+!/data/images/.gitkeep
+
 # Test fixtures
 /tests/fixtures/
 /app/tests/mocks/fixtures/

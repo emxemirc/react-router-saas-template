@@ -118,4 +118,24 @@ describe("NavUser Component", () => {
       screen.queryByRole("menuitem", { name: /account/i }),
     ).not.toBeInTheDocument();
   });
+
+  describe("Image Optimization", () => {
+    test("given: user with null avatar, should: render fallback without errors", () => {
+      const props = createProps({ user: createUser({ avatar: undefined }) });
+      const path = "/test";
+      const RouterStub = createRoutesStub([
+        { Component: () => <NavUser {...props} />, path },
+      ]);
+
+      render(
+        <SidebarProvider>
+          <RouterStub initialEntries={[path]} />
+        </SidebarProvider>,
+      );
+
+      expect(
+        screen.getByText(props.user.name.slice(0, 2).toUpperCase()),
+      ).toBeInTheDocument();
+    });
+  });
 });
